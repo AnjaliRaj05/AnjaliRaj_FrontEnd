@@ -45,94 +45,90 @@ Ans: there are some problems from where we can rearrange and optimize the code a
 
 
 Q3. Please fix, optimize , and/or modify the component as much as you think is necessary.
-Ans:
-
-
-
+Ans: here is my optimize code
 
 
 ```
-  import React, { useState, useEffect, memo } from 'react';
+ import React, { useState, useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 
 // Single List Item
 const WrappedSingleListItem = ({
-  index,
-  isSelected,
-  onClickHandler,
-  text,
+index,
+isSelected,
+onClickHandler,
+text,
 }) => {
-  return (
-    <li
-      style={{ backgroundColor: isSelected ? 'green' : 'red' }}
-      onClick={() => { onClickHandler(index) }} //must be called when clicked and not when mounted thats why i created a arrow function
-    >
-      {text}
-    </li>
-  );
+return (
+<div className='outer_div'>
+<li
+style={{ backgroundColor: isSelected ? 'green' : 'red'}}
+onClick={()=>onClickHandler(index)}
+>
+{text}
+</li>
+</div>
+);
 };
 
 WrappedSingleListItem.propTypes = {
-  index: PropTypes.number,
-  isSelected: PropTypes.bool,
-  onClickHandler: PropTypes.func.isRequired,
-  text: PropTypes.string.isRequired,
+index: PropTypes.number,
+isSelected: PropTypes.bool,
+onClickHandler: PropTypes.func.isRequired,
+text: PropTypes.string.isRequired,
 };
 
 const SingleListItem = memo(WrappedSingleListItem);
 
-// This is List Component
+// List Component
 const WrappedListComponent = ({
-  items,
+items,
 }) => {
-  const [selectedIndex, setSelectedIndex] = useState();// rearrange for destructuring
+const [selectedIndex,setSelectedIndex] = useState();
 
-  useEffect(() => {
-    setSelectedIndex(null);
-  }, [items]);
+useEffect(() => {
+setSelectedIndex(null);
+}, [items]);
 
-  const handleClick = index => {
-    setSelectedIndex(index);
-  };
-
-  return (
-    <ul style={{ textAlign: 'left' }}>
-      {items.map((item, index) => (
-        <SingleListItem
-          key={index} //key is required by react to optimize the performance of the the component
-
-          onClickHandler={() => handleClick(index)}
-          text={item.text}
-          index={index}
-          isSelected={selectedIndex === index} //passing  result as boolean if  component is selected or not.
-        />
-      ))}
-    </ul>
-  )
+const handleClick = index => {
+setSelectedIndex(index);
 };
 
-/*
-Note :
-  As per 'prop-types' documentation we will get error :
-  'Calling PropTypes validators directly is not supported by the `prop-types` package.
-Use PropTypes.checkPropTypes() to call them.'
+return (
+<div className='inner_div'>
+<h1>Display the List items</h1>
+<ul style={{ textAlign: 'center' }}>
+{items.map((item, index) => (
+<SingleListItem
+onClickHandler={() => handleClick(index)}
+text={item.text}
+index={index}
+isSelected={selectedIndex}
+/>
+))}
+</ul>
+</div>
+)
+};
 
-   when we migrate from React.PropTypes to the prop-types package.
-
-   so we can use 'PropTypes.checkPropTypes({})' to resolve the issue... 
-*/
 WrappedListComponent.propTypes = {
-  items: PropTypes.array(PropTypes.shapeOf({
-    text: PropTypes.string.isRequired,
-  })),
+items: PropTypes.arrayOf(PropTypes.shape({
+text: PropTypes.string.isRequired,
+})),
 };
 
 WrappedListComponent.defaultProps = {
-  items: [{text: "Anjali Raj"}, {text: "12015429"}, {text: "B.Tech CSE"}, {text: "Frontend Developer"}],
+items: [
+{text : "Anjali Raj"},
+{text : "12015429"},
+{text : "CSE(HONS)"},
+{text: "Frontend Developer"},
+]
 };
-
 
 const List = memo(WrappedListComponent);
 
 export default List;
+
+
 ```
