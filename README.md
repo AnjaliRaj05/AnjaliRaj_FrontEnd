@@ -3,6 +3,7 @@ Q1.Explain what the simple List component does.
 In React.js, the List component is a simple component that renders an unordered list of items. It takes an array of items as a prop and dynamically generates list items based on the contents of the array.
 
 Here's an example of how the List component might be defined:
+```
 function List(props) {
   const items = props.items.map(item => <li key={item}>{item}</li>);
 
@@ -12,10 +13,12 @@ function List(props) {
     </ul>
   );
 }
+```
 
 In this example, the List component takes a prop called items, which is an array of strings. The component maps over the items array to create an array of <li> elements, with each item in the array as the content of the list item. The key prop is used to uniquely identify each list item.
 
 The List component can be used in other components by passing an array of items as the items prop. For example:
+  ```
 function App() {
   return (
     <div className="App">
@@ -25,16 +28,18 @@ function App() {
     </div>
   );
 }
+  ```
 In this example, the App component creates an array of items and passes it to the List component as the items prop. The List component then renders an unordered list with each item in the array as a list item.
 Q2.What problems / warnings are there with code?
 Ans: there are some problems from where we can rearrange and optimize the code as follows
+  ```
 (a):const [selectedIndex, setSelectedIndex] = useState(null); 
 (b):onClick={() => onClickHandler(index)}
 (c):items: PropTypes.arrayOf(PropTypes.shape({ text: PropTypes.string.isRequired })) 
 (d):WrappedListComponent.defaultProps = { items: [] }; 
 (e)WrappedListComponent.defaultprops
 =items: [{text: "Anjali Raj"}, {text: "12015429"}, {text: "B.Tech CSE"}, {text: "Frontend Developer"}],y};
-
+```
 
 
 
@@ -46,7 +51,8 @@ Ans:
 
 
 
-import React, { useState, useEffect, memo } from 'react';
+```
+  import React, { useState, useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 
 // Single List Item
@@ -129,3 +135,4 @@ WrappedListComponent.defaultProps = {
 const List = memo(WrappedListComponent);
 
 export default List;
+```
